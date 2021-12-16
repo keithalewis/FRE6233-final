@@ -143,7 +143,22 @@ double WINAPI xll_bachelier_put_delta(double f, double sigma, double k, double t
 
 // !!! Create a spreadsheet with a graph of put value and put delta as a function of strike k.
 // Use f = 100, sigma = 0.2, t = 0.25, and k = 80, 81, ..., 120.
-
-// Sorry, professor, I cannot get my program run due to some missing files.
-// I am not sure whether this is caused by the last time I reinstalled the operation system or not. 
-// So, I can only plot the figure by Excel. I hope you understand.
+AddIn xai_bachelier_put_value_delta_plot(
+	Function(XLL_DOUBLE, "xll_bachelier_put_value_delta_plot", "BACHELIER.PUT.PLOT")
+	.Arguments({
+		Arg(XLL_DOUBLE, "f", "is the forward."),
+		Arg(XLL_DOUBLE, "sigma", "is the volatility."),
+		Arg(XLL_DOUBLE, "t", "is the time in years to expriation."),
+		})
+		.Category(CATEGORY)
+	.FunctionHelp("Plot value and delta of a Bachelier put option.")
+);
+void WINAPI xll_bachelier_put_value_delta_plot(double f, double sigma, double t)
+{
+#pragma XLLEXPORT
+	vector<double> value, delta;
+	for (int i = 80; i <= 120; i++) {
+		value.push_back(bachelier_put(f, sigma, i, t));
+		delta.push_back(bachelier_put_delta(f, sigma, i, t));
+	}
+}
