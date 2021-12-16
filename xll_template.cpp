@@ -26,7 +26,7 @@ double N(double x)
 
 double bachelier_put(double f, double sigma, double k, double t)
 {
-	return (k - f) * N((k - f) / (sigma * std::sqrt(t))) + f * sigma * std::sqrt(t) * n((k - f) / (sigma * std::sqrt(t)));
+	return (k - f) * N((k - f) / (f*sigma * std::sqrt(t))) + f * sigma * std::sqrt(t) * n((k - f) / (f*sigma * std::sqrt(t)));
 }
 
 int bachelier_put_test()
@@ -74,7 +74,7 @@ double WINAPI xll_bachelier_put(double f, double sigma, double k, double t)
 
 double bachelier_put_delta(double f, double sigma, double k, double t)
 {
-	return -N((k - f) / (sigma * std::sqrt(t))) + sigma * std::sqrt(t) * n((k - f) / (sigma * std::sqrt(t))); // !!! replace with correct formula
+	return -N((k - f) / (f*sigma * std::sqrt(t))) + sigma * std::sqrt(t) * n((k - f) / (f*sigma * std::sqrt(t))); // !!! replace with correct formula
 }
 
 // !!! Test bachelier_put_delta using difference quotients for
@@ -105,7 +105,7 @@ int bachelier_put_delta_test() {
 	}
 	return 0;
 }
-bool bachelier_put_delta_test_ = bachelier_put_delta_test();
+int bachelier_put_delta_test_ = bachelier_put_delta_test();
 
 
 // !!! Implement BACHELIER.PUT.DELTA
@@ -126,3 +126,7 @@ double WINAPI xll_bachelier_put_delta(double f, double sigma, double k, double t
 #pragma XLLEXPORT
 	return bachelier_put_delta(f, sigma, k, t);
 }
+
+// !!! Create a spreadsheet with a graph of put value and put delta as a function of strike k.
+// Use f = 100, sigma = 0.2, t = 0.25, and k = 80, 81, ..., 120.
+
