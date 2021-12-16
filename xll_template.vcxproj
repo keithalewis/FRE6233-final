@@ -98,6 +98,8 @@
     <ClCompile Include="xll_template.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fms_derivative.h" />
+    <ClInclude Include="fms_monte_carlo.h" />
     <ClInclude Include="xll_template.h" />
   </ItemGroup>
   <ItemGroup>

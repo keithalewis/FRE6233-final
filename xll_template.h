@@ -1,5 +1,9 @@
 // xll_template.h - common includes
 #pragma once
-// Uncomment to build for pre 2007 Excel
-//#define XLOPERX XLOPER
+#pragma warning(disable: 4189)
+
+#include "fms_derivative.h"
+#include "fms_monte_carlo.h"
 #include "xll/xll/xll.h"
+
+#define CATEGORY "Final"
