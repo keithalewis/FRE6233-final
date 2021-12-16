@@ -35,7 +35,7 @@ Solution:
 
     p = E[max{k - F_T, 0}] = (k - f) N(x) + f sigma sqrt(t) n(x)
 
-where x = (k - f)/(sigma sqrt(t)).
+where x = (k - f)/(f sigma sqrt(t)).
 
 Hint. B_t/sqrt(t) is standard normal.
 
@@ -46,6 +46,8 @@ Solution:
 Hint. Use dg(F_T)/df = g'(F_T) dF_T/df where g(x) = max{k - x, 0}.
 
 Solution:
+
+    dp/df = -N(x) + sigma sqrt(t) n(x)
 
 Coding Exam
 
