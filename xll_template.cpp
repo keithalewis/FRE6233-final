@@ -143,6 +143,9 @@ double WINAPI xll_bachelier_put_delta(double f, double sigma, double k, double t
 
 // !!! Create a spreadsheet with a graph of put value and put delta as a function of strike k.
 // Use f = 100, sigma = 0.2, t = 0.25, and k = 80, 81, ..., 120.
+// Sorry, professor, I cannot get my program run due to some missing files.
+// I am not sure whether this is caused by the last time I reinstalled the operation system or not. 
+// So, I can only plot the figure by Excel. I hope you understand.
 AddIn xai_bachelier_put_value_delta_plot(
 	Function(XLL_DOUBLE, "xll_bachelier_put_value_delta_plot", "BACHELIER.PUT.PLOT")
 	.Arguments({
