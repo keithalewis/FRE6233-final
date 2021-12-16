@@ -55,8 +55,10 @@ int bachelier_put_test()
 		error = (error * i + pow(payoff - p, 2)) / (i + 1);
 	}
 	error = sqrt(error - pow(res - p, 2));
+	double difference = fabs(fabs(res - p) - 2 * stdev);
 	// res is the Monte Carlo simulation result of the put value
 	// error is the Monte Carlo simulation error
+	// difference is the difference between Monte Carlo error and standard error.
 
 	return 0;
 }
@@ -99,14 +101,18 @@ int bachelier_put_delta_test() {
 	vector<double> ts = { .1, .2, .3 };
 	vector<double> hs = { .01, .001, .0001 };
 	vector<double> delta;
+	vector<double> error;
 	for (auto f : fs) {
 		for (auto sigma : sigmas) {
 			for (auto k : ks) {
 				for (auto t : ts) {
 					for (auto h : hs) {
+						double calculated_delta = bachelier_put_delta(f, sigma, k, t);
 						double payoff_1 = bachelier_put(f, sigma, k, t);
 						double payoff_2 = bachelier_put(f + h, sigma, k, t);
-						delta.push_back((payoff_2 - payoff_1) / h);
+						double montecarlo_delta = (payoff_2 - payoff_1) / h;
+						delta.push_back(montecarlo_delta);
+						error.push_back(fabs(montecarlo_delta - calculated_delta));
 					}
 				}
 			}
