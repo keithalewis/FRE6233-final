@@ -35,7 +35,7 @@ Solution:
 
     p = E[max{k - F_T, 0}] = (k - f) N(x) + f sigma sqrt(t) n(x)
 
-where x = (k - f)/(sigma sqrt(t)).
+where x = (k - f)/(f sigma sqrt(t)).
 
 Hint. B_t/sqrt(t) is standard normal.
 
