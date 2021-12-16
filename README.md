@@ -47,6 +47,8 @@ Hint. Use dg(F_T)/df = g'(F_T) dF_T/df where g(x) = max{k - x, 0}.
 
 Solution:
 
+    dp/df = -N(x) + sigma sqrt(t) n(x)
+
 Coding Exam
 
 Follow the instructions in xll_template.cpp.
