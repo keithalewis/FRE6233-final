@@ -1,7 +1,10 @@
 ﻿// xll_template.cpp - Sample xll project.
 #include <cmath>
+#include <random>
+#include <vector>
 #include "xll_template.h"
 
+using namespace std;
 using namespace xll;
 
 // sqrt(2 pi)
@@ -24,7 +27,8 @@ double N(double x)
 
 double bachelier_put(double f, double sigma, double k, double t)
 {
-	return f + sigma + k + t; // !!! replace with correct formula
+	double x = (k - f) / (sigma * sqrt(t));
+	return (k - f) * N(x) + f * sigma * sqrt(t) * n(x);
 }
 
 int bachelier_put_test()
@@ -34,9 +38,25 @@ int bachelier_put_test()
 	double k = 100;
 	double t = 0.25;
 	double stdev = f * sigma * sqrt(t);
+	double p = bachelier_put(f, sigma, k, t);
+
+	random_device rd;
+	mt19937 gen(rd());
+	normal_distribution<double> normal(0, t);
 
 	//!!! Write a Monte Carlo simulation that tests the put value.
 	// Use 10,000 simulations and test the error is less than 2*stdev.
+
+	double res = 0.0, error = 0.0;
+	for (int i = 0; i < 10000; i++) {
+		double payoff = k - f * (1.0 + sigma * normal(gen));
+		payoff = k - payoff >= 0.0 ? payoff : 0.0;
+		res = (res * i + payoff) / (i + 1);
+		error = (error * i + pow(payoff - p, 2)) / (i + 1);
+	}
+	error = sqrt(error - pow(res - p, 2));
+	// res is the Monte Carlo simulation result of the put value
+	// error is the Monte Carlo simulation error
 
 	return 0;
 }
@@ -61,7 +81,8 @@ double WINAPI xll_bachelier_put(double f, double sigma, double k, double t)
 
 double bachelier_put_delta(double f, double sigma, double k, double t)
 {
-	return f + sigma + k + t; // !!! replace with correct formula
+	double x = (k - f) / (sigma * sqrt(t));
+	return sigma * sqrt(t) * n(x) - N(x);
 }
 
 // !!! Test bachelier_put_delta using difference quotients for
@@ -70,8 +91,49 @@ double bachelier_put_delta(double f, double sigma, double k, double t)
 // k : {90, 100, 110}
 // t : {.1, .2, .3}
 // h : {.01, .001, .0001}
+int bachelier_put_delta_test() {
+
+	vector<double> fs = { 90, 100, 110 };
+	vector<double> sigmas = { .1, .2, .3 };
+	vector<double> ks = { 90, 100, 110 };
+	vector<double> ts = { .1, .2, .3 };
+	vector<double> hs = { .01, .001, .0001 };
+	vector<double> delta;
+	for (auto f : fs) {
+		for (auto sigma : sigmas) {
+			for (auto k : ks) {
+				for (auto t : ts) {
+					for (auto h : hs) {
+						double payoff_1 = bachelier_put(f, sigma, k, t);
+						double payoff_2 = bachelier_put(f + h, sigma, k, t);
+						delta.push_back((payoff_2 - payoff_1) / h);
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+int bachelier_put_delta_test_ = bachelier_put_delta_test();
 
 // !!! Implement BACHELIER.PUT.DELTA
+AddIn xai_bachelier_put_delta(
+	Function(XLL_DOUBLE, "xll_bachelier_put_delta", "BACHELIER.PUT.DELTA")
+	.Arguments({
+		Arg(XLL_DOUBLE, "f", "is the forward."),
+		Arg(XLL_DOUBLE, "sigma", "is the volatility."),
+		Arg(XLL_DOUBLE, "k", "is the strike."),
+		Arg(XLL_DOUBLE, "t", "is the time in years to expriation."),
+		})
+		.Category(CATEGORY)
+	.FunctionHelp("Delta of a Bachelier put option.")
+);
+double WINAPI xll_bachelier_put_delta(double f, double sigma, double k, double t)
+{
+#pragma XLLEXPORT
+	return bachelier_put_delta(f, sigma, k, t);
+}
 
 // !!! Create a spreadsheet with a graph of put value and put delta as a function of strike k.
 // Use f = 100, sigma = 0.2, t = 0.25, and k = 80, 81, ..., 120.
