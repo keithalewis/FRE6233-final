@@ -65,8 +65,8 @@ Hint. Use dg(F_T)/df = g'(F_T) dF_T/df where g(x) = max{k - x, 0}.
 Solution:
 
     dp/df = E[-1(F_T <= k)(1 + sigma B_T)]
-          = -N(x) - sigma E[B_T 1(B_T/sqrt(T) <= x)]
-          = -N(x) - sigma sqrt(T) n(x)
+          = -N(x) + sigma E[B_T 1(B_T/sqrt(T) <= x)]
+          = -N(x) + sigma sqrt(T) n(x)
 
 Coding Exam
 
