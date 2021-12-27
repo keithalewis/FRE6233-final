@@ -25,10 +25,10 @@ Consider a European option that pays (F_T)^2 at time T.
 
 Hint. Use B_t^2 - t is a martingale.
 
-E_t[(F_t)^2] = E_t[f^2(1 + 2 sigma B_T + sigma^2 B_T^2)]
-             = f^2 E_t[1 + 2 sigma B_T + sigma^2 (B_T^2 - T + T)]
-             = f^2 (1 + 2 sigma B_t + sigma^2 (B_t^2 - t + T)
-             = f^2 (F_t)^2 + f^2 sigma^2 (T - t)
+E_t[(F_t)^2] = E_t[f^2(1 + 2 sigma B_T + sigma^2 B_T^2)]  
+             = f^2 E_t[1 + 2 sigma B_T + sigma^2 (B_T^2 - T + T)]  
+             = f^2 (1 + 2 sigma B_t + sigma^2 (B_t^2 - t + T)  
+             = f^2 (F_t)^2 + f^2 sigma^2 (T - t)  
 
 Let Z be a standard normal random variable and N(z) = P(Z <= z) be its cumulative distribution function.
 
